@@ -1,0 +1,54 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+  <div class="container">
+    <a routerLink="/" class="navbar-brand"
+      ><i class="fa fa-users"></i> ClientPanel</a
+    >
+    <!-- Button toggles navbarMain div below -->
+    <button
+      class="navbar-toggler bg-dark"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarMain"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMain">
+      <ul class="navbar-nav mr-auto">
+        <!-- Show dashboard link only if user is logged in -->
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a
+            routerLink="/"
+            routerLinkActive="router-link-active"
+            class="nav-link"
+            >Dashboard</a
+          >
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ml-auto">
+        <!-- Only show register & login links if user is not logged in, & registration is allowed -->
+        <li class="nav-item" *ngIf="!isLoggedIn && showRegister">
+          <a routerLink="/register" class="nav-link">Register</a>
+        </li>
+
+        <li class="nav-item" *ngIf="!isLoggedIn && showRegister">
+          <a routerLink="/login" class="nav-link">Login</a>
+        </li>
+
+        <!-- Show user's email address if user is logged in -->
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a class="nav-link">{{ loggedInUser }}</a>
+        </li>
+
+        <!-- Show settings & logout links if user is logged in -->
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a routerLink="/settings" class="nav-link">Settings</a>
+        </li>
+
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a href="#" (click)="onLogoutClick()" class="nav-link">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

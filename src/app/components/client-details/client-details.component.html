@@ -1,0 +1,76 @@
+<div class="row">
+  <div class="col-md-6">
+    <a routerLink="/" class="btn btn-info"
+      ><i class="fa fa-arrow-circle-o-left"></i> Back to Dashboard</a
+    >
+  </div>
+  <div class="col-md-6">
+    <div class="btn-group pull-right">
+      <a routerLink="/client/edit/{{ id }}" class="btn btn-dark">Edit</a>
+      <button (click)="onDeleteClick()" class="btn btn-danger">Delete</button>
+    </div>
+  </div>
+</div>
+
+<hr />
+
+<!-- If there is a client, show this div with details -->
+<div *ngIf="client" class="card">
+  <h3 class="card-header">{{ client.firstName }} {{ client.lastName }}</h3>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6 col-sm-6">
+        <h4>
+          <span class="font-weight-bold">Client ID:</span> {{ client.id }}
+        </h4>
+      </div>
+      <div class="col-md-6 col-sm-6">
+        <h4 class="pull-right">
+          <span class="font-weight-bold">Balance:</span>
+          <!-- Show red/green depending on balance value -->
+          <span
+            [class.text-danger]="hasBalance"
+            [class.text-success]="!hasBalance"
+          >
+            {{ client.balance | currency: "GBP" }}
+          </span>
+          <small>
+            <!-- Toggle balance update form -->
+            <a (click)="showBalanceUpdateInput = !showBalanceUpdateInput">
+              <h4 class="badge badge-dark">
+                <i class="fa fa-pencil"></i> Edit Balance
+              </h4>
+            </a>
+          </small>
+        </h4>
+        <div class="clearfix">
+          <!-- Show form if balanceupdate = true, on submit call updateBalance-->
+          <form *ngIf="showBalanceUpdateInput" (submit)="updateBalance()">
+            <div class="input-group">
+              <!-- Text input - bind to current balance for client -->
+              <input
+                type="text"
+                name="balance"
+                class="form-control"
+                [(ngModel)]="client.balance"
+              />
+              <span class="input-group-btn">
+                <button type="submit" class="btn btn-dark">Update</button>
+              </span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <hr />
+    <ul class="list-group">
+      <li class="list-group-item">
+        <span class="font-weight-bold">Email:</span> {{ client.email }}
+      </li>
+      <li class="list-group-item">
+        <span class="font-weight-bold">Phone:</span> {{ client.phone }}
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-md-6 mb-3">
+    <h2><i class="fa fa-users mr-2"></i>Clients</h2>
+  </div>
+  <div class="col-md-6">
+    <h5 class="text-right text-secondary">
+      Total Owed: {{ totalOwed | currency: "GBP" }}
+    </h5>
+  </div>
+</div>
+
+<!-- Show table if there are clients - ? means won't error if clients doesn't exist -->
+<!-- Else, show noClients template below -->
+<table *ngIf="clients?.length > 0; else noClients" class="table table-striped">
+  <thead class="thead-inverse">
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Balance</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Map through clients array -->
+    <tr *ngFor="let client of clients">
+      <td>{{ client.firstName }} {{ client.lastName }}</td>
+      <td>{{ client.email }}</td>
+      <!-- Convert balance to GBP -->
+
+      <td>
+        <!-- Show red/green depending on balance value -->
+        <span
+          [class.text-danger]="client.balance > 0"
+          [class.text-success]="client.balance == 0"
+          >{{ client.balance | currency: "GBP" }}</span
+        >
+      </td>
+      <td>
+        <a routerLink="client/{{ client.id }}" class="btn btn-secondary btn-sm"
+          ><i class="fa fa-arrow-circle-o-right"></i> View</a
+        >
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #noClients>
+  <hr />
+  <h5>No clients in the system</h5>
+</ng-template>
